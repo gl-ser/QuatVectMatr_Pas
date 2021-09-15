@@ -3,4 +3,4 @@
 
 ---
 
-См. [аналог](https://github.com/gl-ser/QuatVectMatr) для C\C++
+См. [аналог](https://github.com/gl-ser/QuatVectMatr) на C\C++
