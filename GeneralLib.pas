@@ -5,6 +5,9 @@
 //                                                                            //
 // Общематематические сущности                                                //
 //                                                                            //
+// Автор ГЛУЩЕНКО Сергей                                                      //
+//                                                                            //
+//                                                                     Москва //
 //----------------------------------------------------------------------------//
 
 unit GeneralLib;
@@ -20,15 +23,15 @@ type
     strict private
       //Модуль вектора
       function ModulVector : extended;
-  
+
       //Вычисление единичного вектора по направлению заданного
       function BasisVector : TVector;
-  
+
     public
       //--- Метаданные ---
-  
+
       var x, y, z : extended;
-  
+
       //--- Перегруженные операции ---
 
       class operator Add(A, B : TVector) : TVector;                 //Сложение двух векторов [ + ]
@@ -36,20 +39,20 @@ type
       class operator Multiply(First, Second : TVector) : extended;  //Скалярное умножение векторов [ * ]
       class operator Divide(First, Second : TVector) : TVector;     //Векторное умножение векторов [ / ]
       class operator Multiply(V : TVector; S : extended) : TVector; //Умножение вектора на скаляр [ * ]
-  
+
       //--- Инициализирующие методы ---
-  
+
       //Инициализирует вектор нулями
       procedure Empty;
-  
+
       //Инициализирует вектор заданными значениями
       procedure Data(ValueX, ValueY, ValueZ : extended);
-  
+
       //--- Свойства только для чтения ---
-  
+
       //Возвращает модуль вектора
       property _Modul : extended read ModulVector;
-  
+
       //Возвращает единичный вектор по направлению заданного
       property _Basis : TVector read BasisVector;
     end;
@@ -60,54 +63,54 @@ type
     strict private
       //Транспонирование матрицы
       function TransposeMatrix : TMatrix;
-  
+
       //ВНИМАНИЕ !!!
       //Вычисление обратной матрицы. Эта процедура универсальная. Если надо, чтобы она обращала матрицу произвольной
       // размерности (матрица должна быть квадратной), её надо немного подправить. А именно: локальную константу
       // Count установить на нужную размерность, изменить диапазон локального массива [0..Count-1,0..Count-1],
       // ну и передать в локальную переменную FData исходную матрицу, а потом из FData считать обратную матрицу
       function OppositeMatrix : TMatrix;
-  
+
       //ВНИМАНИЕ !!!
       //Вычисление определителя матрицы. Эта процедура универсальная, может работать с квадратными матрицами любой
       // размерности. Только для этого её необходимо чуть-чуть подправить так же, как Обратную Матрицу
       function DetMatrix : extended;
-  
+
     public
       //--- Метаданные ---
-  
+
       var FirstString, SecondString, ThirdString : TVector;
-  
+
       //--- Перегруженные операции ---
-  
+
       class operator Multiply(M : TMatrix; V : TVector) : TVector; //Произведение матрицы на вектор [ * ]
       class operator Add(A, B : TMatrix) : TMatrix;                //Сложение двух матриц [ + ]
       class operator Subtract(A, B : TMatrix) : TMatrix;           //Вычитание двух матриц [ - ]
       class operator Multiply(A, B : TMatrix) : TMatrix;           //Произведение двух матриц [ * ]
-  
+
       //--- Инициализирующие методы ---
-  
+
       //Инициализирует матрицу нулями
       procedure Empty;
-  
+
       //Инициализирует матрицу заданными значениями (запись по строкам)
       procedure Data(a, b, c, d, e, f, g, h, k : extended);
-  
+
       //Инициализирует матрицу заданными значениями
       procedure DataVect(FirstStr, SecondStr, ThirdStr : TVector);
-  
+
       //Матрица вращения вокруг оси OX на заданный угол. Угол вращения считается положительным, если он виден из
       // конца оси, вокруг которой происходит вращение, против часовой стрелки
       procedure OXMatrix(Angle : extended);
-  
+
       //Матрица вращения вокруг оси OY на заданный угол. Угол вращения считается положительным, если он виден из
       // конца оси, вокруг которой происходит вращение, против часовой стрелки
       procedure OYMatrix(Angle : extended);
-  
+
       //Матрица вращения вокруг оси OZ на заданный угол. Угол вращения считается положительным, если он виден из
       // конца оси, вокруг которой происходит вращение, против часовой стрелки
       procedure OZMatrix(Angle : extended);
-  
+
       //Получает матрицу вращения по заданным трем углам поворота вокруг осей OX, OY, OZ. О знаках углов поворота
       // смотри комментарии для функций OXMatrix, OYMatrix, OZMatrix
       // Order задает порядок поворота системы координат вокруг базовых осей
@@ -118,15 +121,15 @@ type
       // "zyx" - поворот вокруг оси OZ, затем вокруг оси OY, затем вокруг оси OX
       // "zxy" - поворот вокруг оси OZ, затем вокруг оси OX, затем вокруг оси OY
       procedure ThreeAnglesMatrix(OXAngle, OYAngle, OZAngle : extended;  Order : string);
-  
+
       //--- Свойства только для чтения ---
-  
+
       //Возвращает транспонированную матрицу
       property _Trans : TMatrix read TransposeMatrix;
-  
+
       //Возвращает обратную матрицу
       property _Opposite : TMatrix read OppositeMatrix;
-  
+
       //Возвращает определитель матрицы
       property _Det : extended read DetMatrix;
     end;
@@ -137,30 +140,30 @@ type
     strict private
       //Вычисление модуля угла поворота из кватерниона вращения
       function ModulAngleFromQuat : extended;
-  
+
       //Вычисление нормы (модуля) кватерниона
       function NormQuat : extended;
-  
+
       //Вычисление единичного кватерниона по направлению заданного
       function BasisQuat : TQuaternion;
-  
+
       //Обратный кватернион
       function OppositeQuat : TQuaternion;
-  
+
       //Получает матрицу поворотов из кватерниона вращения
       function MatrixFromQuat : TMatrix;
-  
+
     public
       //--- Метаданные ---
-  
+
       var
         q0 : extended; //Скалярная составляющая w
         q1 : extended; //Векторная составляющая x
         q2 : extended; //Векторная составляющая y
         q3 : extended; //Векторная составляющая z
-  
+
       //--- Перегруженные операции ---
-  
+
       //Поворот вектора с помощью заданного кватерниона. Положительным считается поворот, выполненный по правилу
       // буравчика: большой палец указывает направление вектора кватерниона, а согнутая на 90 градусов ладонь
       // указывает направление положительного поворота (поворота на положительный угол). Произведение кватерниона на
@@ -169,22 +172,22 @@ type
       class operator Add(A, B : TQuaternion) : TQuaternion;        //Сложение двух кватернионов [ + ]
       class operator Subtract(A, B : TQuaternion) : TQuaternion;   //Вычитание двух кватернионов [ - ]
       class operator Multiply(Q1, Q2 : TQuaternion) : TQuaternion; //Произведение двух кватернионов [ * ]
-  
+
       //--- Инициализирующие методы ---
-  
+
       //Инициализирует кватернион нулями
       procedure Empty;
-  
+
       //Инициализирует кватернион заданными значениями
       procedure Data(Valueq0, Valueq1, Valueq2, Valueq3 : extended);
-  
+
       //Создаёт кватернион вращения из вектора, вокруг которого надо выполнить вращение, и угла, на который надо
       // выполнить вращение. Знак величины угла определяется по правилу буравчика
       procedure MakeQuat(Angle : extended; V : TVector);
-  
+
       //Получает кватернион вращения из матрицы поворотов по алгоритму Стенли
       procedure QuatFromMatrixStanley(M : TMatrix);
-  
+
       //Получает кватернион по заданным трем углам поворота вокруг осей OX, OY, OZ. О знаках углов поворота
       // смотри комментарии для функций OXMatrix, OYMatrix, OZMatrix
       // Order задает порядок поворота системы координат вокруг базовых осей
@@ -195,21 +198,21 @@ type
       // "zyx" - поворот вокруг оси OZ, затем вокруг оси OY, затем вокруг оси OX
       // "zxy" - поворот вокруг оси OZ, затем вокруг оси OX, затем вокруг оси OY
       procedure ThreeAnglesQuat(OXAngle, OYAngle, OZAngle : extended;  Order : string);
-  
+
       //--- Свойства только для чтения ---
-  
+
       //Возвращает модуль угла поворота
       property _ModulAngle : extended read ModulAngleFromQuat;
-  
+
       //Возвращает норму (модуль) кватерниона
       property _Norm : extended read NormQuat;
-  
+
       //Возвращает единичный кватернион по направлению заданного
       property _Basis : TQuaternion read BasisQuat;
-  
+
       //Возвращает обратный кватернион
       property _Opposite : TQuaternion read OppositeQuat;
-  
+
       //Возвращает матрицу поворотов
       property _Matrix : TMatrix read MatrixFromQuat;
     end;
@@ -436,17 +439,17 @@ begin
         A[i, j] := FData[i, j];
     for i := 0 to Count - 2 do  //Начало преобразования к верхнему треугольному виду
     begin
-      for j := i to Count - 1 do                                 // Поиск    
-      begin                                                      // нулевых  
-        Rows := 0;                                               // строк    
-        Cols := 0;                                               // и        
-        for k := i to Count - 1 do                               // столбцов 
-        begin                                                    // в        
-          Rows := Rows + Ord(A[j, k] = 0);                       // матрице  
-          Cols := Cols + Ord(A[k, j] = 0);                       //          
-        end;                                                     //          
-        if Rows + Cols = 0 then                                  //          
-          Break;                                                 //          
+      for j := i to Count - 1 do                                 // Поиск
+      begin                                                      // нулевых
+        Rows := 0;                                               // строк
+        Cols := 0;                                               // и
+        for k := i to Count - 1 do                               // столбцов
+        begin                                                    // в
+          Rows := Rows + Ord(A[j, k] = 0);                       // матрице
+          Cols := Cols + Ord(A[k, j] = 0);                       //
+        end;                                                     //
+        if Rows + Cols = 0 then                                  //
+          Break;                                                 //
         if (Cols = Count - i) or (Rows = Count - i) then         //
         begin
           //Матрица вырожденная. Её определитель равен нулю
@@ -458,10 +461,10 @@ begin
         for j := i + 1 to Count - 1 do
           if A[j, i] <> 0 then
           begin
-            Result := -Result;                // меняем строку 
-            Temp[0] := A[i];                  // на строку с   
-            A[i] := A[j];                     // первым        
-            A[j] := Temp[0];                  // ненулевым     
+            Result := -Result;                // меняем строку
+            Temp[0] := A[i];                  // на строку с
+            A[i] := A[j];                     // первым
+            A[j] := Temp[0];                  // ненулевым
             Break                             // элементом
           end;
       for j := i + 1 to Count - 1 do
@@ -593,17 +596,17 @@ begin
 
     for i := 0 to Count - 1 do //Начало преобразования к виду [E|B]
     begin
-      for j := i to Count - 1 do                                 // Поиск    
-      begin                                                      // нулевых  
-        Rows := 0;                                               // строк    
-        Cols := 0;                                               // и        
-        for k := i to Count - 1 do                               // столбцов 
-        begin                                                    // в        
-          Rows := Rows + Ord(A[j, k] = 0);                       // матрице  
-          Cols := Cols + Ord(A[k, j] = 0);                       //          
-        end;                                                     //          
-        if Rows + Cols = 0 then                                  //          
-          Break;                                                 //          
+      for j := i to Count - 1 do                                 // Поиск
+      begin                                                      // нулевых
+        Rows := 0;                                               // строк
+        Cols := 0;                                               // и
+        for k := i to Count - 1 do                               // столбцов
+        begin                                                    // в
+          Rows := Rows + Ord(A[j, k] = 0);                       // матрице
+          Cols := Cols + Ord(A[k, j] = 0);                       //
+        end;                                                     //
+        if Rows + Cols = 0 then                                  //
+          Break;                                                 //
         if (Cols = Count - i) or (Rows = Count - i) then         //
         begin
           //DescriptionOfErrors.Add('1009 Матрица вырожденная. Невозможно вычислить обратную матрицу');
